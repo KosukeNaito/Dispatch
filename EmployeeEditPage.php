@@ -1,6 +1,7 @@
 <?php
 
 require_once 'HTMLBuilder/EditableTableBuilder.php';
+require_once 'DBConfig/DBConfig.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addCount = $_POST['addCount'];
@@ -14,10 +15,10 @@ if (!isset($addCount)) {
     $addCount = 0;
 }
 
-$dsn        = DBConfig::$DATA_SOURCE_NAME;
-$user       = DBConfig::$USER_NAME;
-$password   = DBConfig::$PASSWORD;
-$tableName  = DBConfig::$TABLE_NAME;
+$dsn        = DBConfig::DATA_SOURCE_NAME;
+$user       = DBConfig::USER_NAME;
+$password   = DBConfig::PASSWORD;
+$tableName  = DBConfig::TABLE_NAME;
 
 $colCount    = 0;
 $rowCount    = 0;
