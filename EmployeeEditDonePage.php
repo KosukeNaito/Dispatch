@@ -1,9 +1,11 @@
 <?php
 
-$dsn = 'mysql:dbname=dispatchdb;host=localhost';
-$user = 'fmboy';
-$password = '1gEZCoHbzT1CrWi8';
-$tableName = 'employee';
+require_once('DBConfig/DBConfig.php');
+
+$dsn        = DBConfig::$DATA_SOURCE_NAME;
+$user       = DBConfig::$USER_NAME;
+$password   = DBConfig::$PASSWORD;
+$tableName  = DBConfig::$TABLE_NAME;
 
 if (isset($_POST['regist'])) {
     if (isset($_POST['rowCount']) && isset($_POST['colCount'])) {

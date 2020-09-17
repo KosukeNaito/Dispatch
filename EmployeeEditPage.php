@@ -14,13 +14,13 @@ if (!isset($addCount)) {
     $addCount = 0;
 }
 
-$dsn = 'mysql:dbname=dispatchdb;host=localhost';
-$user = 'fmboy';
-$password = '1gEZCoHbzT1CrWi8';
-$tableName = 'employee';
+$dsn        = DBConfig::$DATA_SOURCE_NAME;
+$user       = DBConfig::$USER_NAME;
+$password   = DBConfig::$PASSWORD;
+$tableName  = DBConfig::$TABLE_NAME;
 
-$colCount = 0;
-$rowCount = 0;
+$colCount    = 0;
+$rowCount    = 0;
 $htmlBuilder = new EditableTableBuilder();
 try {
     $dbh = new PDO($dsn, $user, $password);
