@@ -1,6 +1,6 @@
 <?php
 
-require_once 'EditableTableBuilder.php';
+require_once 'HTMLBuilder/EditableTableBuilder.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addCount = $_POST['addCount'];

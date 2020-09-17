@@ -1,6 +1,6 @@
 <?php
 
-require_once 'TableBuilder.php';
+require_once 'HTMLBuilder/TableBuilder.php';
 
 /**
  * TableBuilderクラスのテーブルデータ各要素を編集可能にするもの
