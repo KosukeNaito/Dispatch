@@ -1,1 +1,5 @@
 DBConfig/
+vendor/
+*.json
+*.lock
+*.cmd
