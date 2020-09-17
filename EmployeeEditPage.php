@@ -21,19 +21,20 @@ $password   = DBConfig::PASSWORD;
 $tableName  = DBConfig::TABLE_NAME;
 
 $colCount    = 0;
-$rowCount    = 0;
 $htmlBuilder = new EditableTableBuilder();
 try {
     $dbh = new PDO($dsn, $user, $password);
 
+    //データベースのフィールド名を取得
     $getClmQuery = 'SHOW COLUMNS FROM ' . $tableName;
-    $fieldArray = array();
-    foreach ($dbh->query($getClmQuery) as $row) {
-        $htmlBuilder->addHeader(h($row['Field']));
-        $fieldArray[] = $row['Field'];
-        $rowCount++;
+    $fieldArray = $dbh->query($getClmQuery)->fetchAll(PDO::FETCH_COLUMN, 0);
+
+    //データベースのフィールド名をテーブルに追加
+    foreach ($fieldArray as $row) {
+        $htmlBuilder->addHeader(h($row));
     }
 
+    //データをテーブルに追加
     $selectQuery = 'SELECT * FROM ' . $tableName;
     foreach ($dbh->query($selectQuery) as $row) {
         foreach ($fieldArray as $field) {
@@ -43,6 +44,7 @@ try {
         $colCount++;
     }
 
+    //+ボタンを押された回数　新規登録行を追加する
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         for ($i = 0; $i < $addCount; $i++) {
             $htmlBuilder->add('');
@@ -76,7 +78,7 @@ function h($str) {
 $htmlBuilder->write();
 ?>
 <input type='submit' name='regist' value='登録'>
-<input type='hidden' name='rowCount' value='<?php echo $rowCount ?>'>
+<input type='hidden' name='rowCount' value='<?php echo count($fieldArray) ?>'>
 <input type='hidden' name='colCount' value='<?php echo $colCount ?>'>
 </form>
 <form action='EmployeeEditPage.php' method='POST' style="display:inline">
