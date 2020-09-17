@@ -2,6 +2,7 @@
 
 require_once 'HTMLBuilder/EditableTableBuilder.php';
 require_once 'DBConfig/DBConfig.php';
+require_once 'DBConnector/DBConnector.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addCount = $_POST['addCount'];
@@ -23,20 +24,18 @@ $tableName  = DBConfig::TABLE_NAME;
 $colCount    = 0;
 $htmlBuilder = new EditableTableBuilder();
 try {
-    $dbh = new PDO($dsn, $user, $password);
+    $dbh = new DBConnector();
 
-    //データベースのフィールド名を取得
-    $getClmQuery = 'SHOW COLUMNS FROM ' . $tableName;
-    $fieldArray = $dbh->query($getClmQuery)->fetchAll(PDO::FETCH_COLUMN, 0);
-
+    $fieldArray = $dbh->fetchField();
     //データベースのフィールド名をテーブルに追加
     foreach ($fieldArray as $row) {
         $htmlBuilder->addHeader(h($row));
     }
 
+
     //データをテーブルに追加
-    $selectQuery = 'SELECT * FROM ' . $tableName;
-    foreach ($dbh->query($selectQuery) as $row) {
+
+    foreach ($dbh->fetchAllData() as $row) {
         foreach ($fieldArray as $field) {
             $htmlBuilder->add(h($row[$field]));
         }

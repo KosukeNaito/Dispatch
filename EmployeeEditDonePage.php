@@ -1,6 +1,6 @@
 <?php
 
-require_once('DBConfig/DBConfig.php');
+require_once 'DBConfig/DBConfig.php';
 
 $dsn        = DBConfig::DATA_SOURCE_NAME;
 $user       = DBConfig::USER_NAME;
