@@ -23,8 +23,8 @@ class Tag implements TagInterface {
      * タグの要素名（$tagName）とタグで囲むコンテンツをセット
      */
     public function __construct($tagName, $content) {
-        $this->tagName = h($tagName);
-        $this->content = h($content);
+        $this->tagName = $this->h($tagName);
+        $this->content = $this->h($content);
     }
 
     /**
