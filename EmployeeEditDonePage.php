@@ -30,7 +30,7 @@ if (isset($_POST['regist'])) {
         $updateFlag = false;
         for ($c = 0; $c < $_POST['colCount']; $c++) {
             if ($c < count($employeeNumArray)) {
-                $statementHandle = $dbh->prepare('UPDATE '.$tableName.' SET ');
+                //$statementHandle = $dbh->prepare('UPDATE '.$tableName.' SET ');
             } else {
                 $statementHandle = $dbh->prepare('INSERT INTO '.$tableName.' VALUES ('.$values.')');
             }

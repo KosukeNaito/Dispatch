@@ -29,12 +29,41 @@ class DBConnector {
         return $dbh->query($showClmQuery)->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
+    public function fetchFieldSize() {
+        return count($this->fetchField());
+    }
+
     public function fetchAllData() {
         $dbh = $this->connect();
         $allSelectQuery = 'SELECT * FROM ' . $this->tableName;
         return $dbh->query($allSelectQuery)->fetchAll();
     }
 
+    public function insertData($data) {
+        if (count($data) !== $this->fetchFieldSize()) {
+            return false;
+        }
+        $placeholder = generateInsertPlaceholder();
+        $statementHandle = $dbh->prepare('INSERT INTO '.$tableName.' VALUES ('.$placeholder.')');
+        //TODO:引数をプレースホルダーに入れる処理に変更
+        foreach ($fieldArray as $field) {
+            if (isset($_POST['input'.$c.$r]) && $_POST['input'.$c.'0'] !== '') {
+                $statementHandle->bindValue(':'.$field, $_POST['input'.$c.$r]);
+            }
+            $r++;
+        }
+        return $statementHandle->execute();
+    }
+
+    private function generateInsertPlaceholder() {
+        $fieldArray = $this->fetchField();
+        foreach ($fieldArray as $field) {
+            $values .= ':'. $field . ',';
+        }
+        return rtrim($values, ',');
+    }
+
+ 
 }
 
 
