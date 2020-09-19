@@ -31,6 +31,18 @@ class TagTest extends TestCase {
 
     }
 
+    public function testAddTag() {
+        $grandTag = new Tag('grandparent', 'g');
+        $parentTag = new Tag('parent', 'p');
+        $childTag = new Tag('child', 'c');
+
+        $parentTag->addTag($childTag);
+        $grandTag->addTag($parentTag);
+        
+        $this->assertEquals('<grandparent>g<parent>p<child>c</child></parent></grandparent>', $grandTag->getTagText());
+    }
+
+
 }
 
 
