@@ -13,6 +13,7 @@ if (isset($_POST['regist'])) {
         $dbh = new PDO($dsn, $user, $password);
         $dbc = new DBConnector();
 
+        $allData = $dbc->fetchAllData();
         $updateFlag = false;
         for ($c = 0; $c < $_POST['colCount']; $c++) {
 
@@ -22,10 +23,10 @@ if (isset($_POST['regist'])) {
                 $input[] = $_POST['input'.$c.$r];
             }
 
-            if ($c < $dbc->fetchAllDataSize()) {
-                //$statementHandle = $dbh->prepare('UPDATE '.$tableName.' SET ');
+            if ($c < count($allData)) {
+                $dbc->updateData($input, $allData[$c]['number']);
             } else {
-                $dbc->insertData($input);                
+                $dbc->insertData($input);             
             }
         
         }
