@@ -39,18 +39,28 @@ class DBConnector {
         return $dbh->query($allSelectQuery)->fetchAll();
     }
 
+    public function fetchAllDataSize() {
+        return count($this->fetchAllData());
+    }
+
     public function insertData($data) {
+        if (!is_array($data)) {
+            return false;
+        }
+
         if (count($data) !== $this->fetchFieldSize()) {
             return false;
         }
-        $placeholder = generateInsertPlaceholder();
-        $statementHandle = $dbh->prepare('INSERT INTO '.$tableName.' VALUES ('.$placeholder.')');
-        //TODO:引数をプレースホルダーに入れる処理に変更
-        foreach ($fieldArray as $field) {
-            if (isset($_POST['input'.$c.$r]) && $_POST['input'.$c.'0'] !== '') {
-                $statementHandle->bindValue(':'.$field, $_POST['input'.$c.$r]);
-            }
-            $r++;
+
+        if ($data[0] === '') {
+            return false;
+        }
+        $placeholder = $this->generateInsertPlaceholder();
+        $dbh = $this->connect();
+        $field = $this->fetchField();
+        $statementHandle = $dbh->prepare('INSERT INTO '.$this->tableName.' VALUES ('.$placeholder.')');
+        for ($i = 0; $i < $this->fetchFieldSize(); $i++) {
+            $statementHandle->bindValue(':'.$field[$i], $data[$i]);
         }
         return $statementHandle->execute();
     }

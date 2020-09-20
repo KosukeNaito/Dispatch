@@ -1,6 +1,7 @@
 <?php
 
 require_once 'DBConfig/DBConfig.php';
+require_once 'DBConnector/DBConnector.php';
 
 $dsn        = DBConfig::DATA_SOURCE_NAME;
 $user       = DBConfig::USER_NAME;
@@ -10,46 +11,23 @@ $tableName  = DBConfig::TABLE_NAME;
 if (isset($_POST['regist'])) {
     if (isset($_POST['rowCount']) && isset($_POST['colCount'])) {
         $dbh = new PDO($dsn, $user, $password);
+        $dbc = new DBConnector();
 
-        $getClmQuery = 'SHOW COLUMNS FROM ' . $tableName;
-        $values = '';
-        $fieldArray = array();
-        foreach ($dbh->query($getClmQuery) as $row) {
-            $fieldArray[] = $row['Field'];
-            $values .= ':'. $row['Field'] . ',';
-        }
-        $values = rtrim($values, ',');
-
-        $selectQuery = 'SELECT * FROM '.$tableName;
-        $employeeNumArray = array();
-        foreach ($dbh->query($selectQuery) as $row) {
-            $employeeNumArray[] = $row['number'];
-        }
-
-        $statementHandle = '';
         $updateFlag = false;
         for ($c = 0; $c < $_POST['colCount']; $c++) {
-            if ($c < count($employeeNumArray)) {
+
+            $input = array();
+
+            for ($r = 0; $r < $_POST['rowCount']; $r++) {
+                $input[] = $_POST['input'.$c.$r];
+            }
+
+            if ($c < $dbc->fetchAllDataSize()) {
                 //$statementHandle = $dbh->prepare('UPDATE '.$tableName.' SET ');
             } else {
-                $statementHandle = $dbh->prepare('INSERT INTO '.$tableName.' VALUES ('.$values.')');
+                $dbc->insertData($input);                
             }
         
-            $r = 0;
-            foreach ($fieldArray as $field) {
-                if (isset($_POST['input'.$c.$r]) && $_POST['input'.$c.'0'] !== '') {
-                    $statementHandle->bindValue(':'.$field, $_POST['input'.$c.$r]);
-                }
-                $r++;
-            }
-            $statementHandle->execute();
-            if ($statementHandle->rowCount() !== 0) {
-                echo ($c + 1).'行目が更新されました。<br>';
-                $updateFlag = true;
-            }
-        }
-        if (!$updateFlag) {
-            echo '更新が失敗しました。<br>';
         }
     }
 } else {
