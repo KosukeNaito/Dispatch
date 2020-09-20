@@ -8,22 +8,27 @@ if (isset($_POST['regist'])) {
         $dbc = new DBConnector();
 
         $allData = $dbc->fetchAllData();
-        $updateFlag = false;
+        $updateFlags = array();
         for ($c = 0; $c < $_POST['colCount']; $c++) {
 
             $input = array();
-
             for ($r = 0; $r < $_POST['rowCount']; $r++) {
                 $input[] = $_POST['input'.$c.$r];
             }
 
             if ($c < count($allData)) {
-                $dbc->updateData($input, $allData[$c]['number']);
+                $updateFlags[] = $dbc->updateData($input, $allData[$c]['number']);
             } else {
-                $dbc->insertData($input);             
+                $updateFlags[] = $dbc->insertData($input);             
             }
-        
         }
+        echo '処理が終了しました。<br>';
+        for ($c = 0; $c < count($updateFlags); $c++) {
+            if (!$updateFlags[$c]) { 
+                print ($c+1)."の処理が失敗しました。<br>";
+            }
+        }
+
     }
 } else {
     echo '強制ブラウジングエラー';

@@ -27,9 +27,7 @@ try {
         $htmlTable->addHeader(h($row));
     }
 
-
     //hmtlテーブルに追加
-
     foreach ($dbc->fetchAllData() as $row) {
         foreach ($fieldArray as $field) {
             $htmlTable->add(h($row[$field]));
