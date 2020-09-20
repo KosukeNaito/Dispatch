@@ -16,39 +16,34 @@ if (!isset($addCount)) {
     $addCount = 0;
 }
 
-$dsn        = DBConfig::DATA_SOURCE_NAME;
-$user       = DBConfig::USER_NAME;
-$password   = DBConfig::PASSWORD;
-$tableName  = DBConfig::TABLE_NAME;
-
 $colCount    = 0;
-$htmlBuilder = new EditableTableBuilder();
+$htmlTable = new EditableTableBuilder();
 try {
-    $dbh = new DBConnector();
+    $dbc = new DBConnector();
 
-    $fieldArray = $dbh->fetchField();
-    //データベースのフィールド名をテーブルに追加
+    $fieldArray = $dbc->fetchField();
+    //データベースのフィールド名をhtmlテーブルに追加
     foreach ($fieldArray as $row) {
-        $htmlBuilder->addHeader(h($row));
+        $htmlTable->addHeader(h($row));
     }
 
 
-    //データをテーブルに追加
+    //hmtlテーブルに追加
 
-    foreach ($dbh->fetchAllData() as $row) {
+    foreach ($dbc->fetchAllData() as $row) {
         foreach ($fieldArray as $field) {
-            $htmlBuilder->add(h($row[$field]));
+            $htmlTable->add(h($row[$field]));
         }
-        $htmlBuilder->newLine();
+        $htmlTable->newLine();
         $colCount++;
     }
 
     //+ボタンを押された回数　新規登録行を追加する
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         for ($i = 0; $i < $addCount; $i++) {
-            $htmlBuilder->add('');
-            $htmlBuilder->add('');
-            $htmlBuilder->newLine();
+            $htmlTable->add('');
+            $htmlTable->add('');
+            $htmlTable->newLine();
             $colCount++;
         }
     }
@@ -74,7 +69,7 @@ function h($str) {
 <title>従業員編集</title>
 <form action='EmployeeEditDonePage.php' method='POST' style="display:inline">
 <?php
-$htmlBuilder->write();
+$htmlTable->write();
 ?>
 <input type='submit' name='regist' value='登録'>
 <input type='hidden' name='rowCount' value='<?php echo count($fieldArray) ?>'>

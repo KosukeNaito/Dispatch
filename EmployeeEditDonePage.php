@@ -3,14 +3,8 @@
 require_once 'DBConfig/DBConfig.php';
 require_once 'DBConnector/DBConnector.php';
 
-$dsn        = DBConfig::DATA_SOURCE_NAME;
-$user       = DBConfig::USER_NAME;
-$password   = DBConfig::PASSWORD;
-$tableName  = DBConfig::TABLE_NAME;
-
 if (isset($_POST['regist'])) {
     if (isset($_POST['rowCount']) && isset($_POST['colCount'])) {
-        $dbh = new PDO($dsn, $user, $password);
         $dbc = new DBConnector();
 
         $allData = $dbc->fetchAllData();
