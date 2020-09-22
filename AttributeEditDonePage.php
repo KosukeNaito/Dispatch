@@ -19,8 +19,8 @@ if ($dbc->addNewAttribute($_POST['attribute'])) {
 <body>
 <title>属性編集</title>
 
-<a href="AttributeEditPage.php">戻る</a>
-<a href="index.php">トップへ</a>
+<a href='AttributeEditPage.php'>戻る</a>
+<a href='index.php'>トップへ</a>
 </body>
 
 </html>

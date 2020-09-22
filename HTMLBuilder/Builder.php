@@ -9,7 +9,7 @@
  */
 abstract class Builder implements BuilderInterface {
 
-    private $text = "";
+    private $text = '';
 
     public function write() {
         print($text);
@@ -20,7 +20,7 @@ abstract class Builder implements BuilderInterface {
     }
 
     protected function initText() {
-        $this->text = "";
+        $this->text = '';
     }
 
 }
