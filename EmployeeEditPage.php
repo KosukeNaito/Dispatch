@@ -70,6 +70,7 @@ function h($str) {
 <?php
 $htmlTable->write();
 ?>
+<input type='submit' name='delete' value='削除'>
 <input type='submit' name='regist' value='登録'>
 <input type='hidden' name='rowCount' value='<?php echo count($fieldArray) ?>'>
 <input type='hidden' name='colCount' value='<?php echo $colCount ?>'>
