@@ -14,7 +14,7 @@ class EditableTableBuilder extends TableBuilder {
         $colCount = 0;
         foreach ($this->tableData as $col) {
             $tr = new Tag('tr', '');
-            $tr->addTag($this->createTd($this->createCheckBox()));
+            $tr->addTag($this->createTd($this->createCheckBox('checkbox'.$colCount)));
             $rowCount = 0;
             foreach ($col as $data) {
                 $input = new Tag('input', '');
@@ -29,9 +29,10 @@ class EditableTableBuilder extends TableBuilder {
         }
     }
 
-    private function createCheckBox() {
+    private function createCheckBox($name) {
         $checkbox = new Tag('input', '');
         $checkbox->addAttribute('type', 'checkbox');
+        $checkbox->addAttribute('name', $name);
         return $checkbox;
     }
 
