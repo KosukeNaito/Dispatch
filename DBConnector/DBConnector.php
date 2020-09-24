@@ -84,15 +84,6 @@ class DBConnector {
         return $statementHandle->execute();
     }
 
-    public function addNewAttribute($attribute) {
-        $dbh = $this->connect();
-        $statementHandle = $dbh->prepare('ALTER TABLE '.$this->tableName.' ADD :attribute tinyint(1)');
-        $statementHandle->bindValue(':attribute', $attribute, PDO::PARAM_STR);
-        $result = $statementHandle->execute();
-        var_dump($statementHandle->errorInfo());
-        return $result;
-    }
-
     private function generateUpdatePlaceholder() {
         $fieldArray = $this->fetchField();
         $values = '';
