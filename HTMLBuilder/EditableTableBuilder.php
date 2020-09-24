@@ -14,21 +14,33 @@ class EditableTableBuilder extends TableBuilder {
         $colCount = 0;
         foreach ($this->tableData as $col) {
             $tr = new Tag('tr', '');
+            $tr->addTag($this->createTd($this->createCheckBox()));
             $rowCount = 0;
             foreach ($col as $data) {
                 $input = new Tag('input', '');
                 $input->addAttribute('type', 'text');
                 $input->addAttribute('value', $data);
                 $input->addAttribute('name', 'input'.$colCount.$rowCount);
-                $td = new Tag('td', '');
-                $td->addTag($input);
-                $tr->addTag($td);
+                $tr->addTag($this->createTd($input));
                 $rowCount++;
             }
             $this->tableTag->addTag($tr);
             $colCount++;
         }
     }
+
+    private function createCheckBox() {
+        $checkbox = new Tag('input', '');
+        $checkbox->addAttribute('type', 'checkbox');
+        return $checkbox;
+    }
+
+    private function createTd($tag) {
+        $td = new Tag('td', '');
+        $td->addTag($tag);
+        return $td;
+    }
+
 }
 
 ?>
