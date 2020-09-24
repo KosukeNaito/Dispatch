@@ -23,6 +23,7 @@ try {
 
     $fieldArray = $dbc->fetchField();
     //データベースのフィールド名をhtmlテーブルに追加
+    $htmlTable->addHeader('削除');
     foreach ($fieldArray as $row) {
         $htmlTable->addHeader(h($row));
     }
