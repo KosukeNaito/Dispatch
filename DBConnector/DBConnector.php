@@ -84,6 +84,13 @@ class DBConnector {
         return $statementHandle->execute();
     }
 
+    public function deleteData($whereValue) {
+        $dbh = $this->connect();
+        echo $whereValue;
+        $statementHandle = $dbh->prepare('DELETE FROM '.$this->tableName.' WHERE number="'.$whereValue.'"');
+        return $statementHandle->execute();
+    }
+
     private function generateUpdatePlaceholder() {
         $fieldArray = $this->fetchField();
         $values = '';
