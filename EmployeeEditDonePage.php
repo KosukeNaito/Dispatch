@@ -30,6 +30,14 @@ if (isset($_POST['regist'])) {
         }
 
     }
+} else if (isset($_POST['delete'])) {
+    if (isset($_POST['colCount'])) {
+        for ($c = 0; $c < $_POST['colCount']; $c++) {
+            if ($_POST['checkbox'.$c]) {
+                echo $c;
+            }
+        }        
+    }
 } else {
     echo '強制ブラウジングエラー';
     die();
